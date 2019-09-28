@@ -1,5 +1,6 @@
 :- use_module(library(clpfd)).
 
+% ----------------------------------------------------------------------------
 
 puzzle_solution(Puzzle) :-
 	digit(Puzzle),
@@ -10,15 +11,21 @@ puzzle_solution(Puzzle) :-
 	heading(Puzzle),
 	heading(Puzzle_trans).
 
+% ----------------------------------------------------------------------------
+
 % check numbers in Puzzle are all integer from 1 to 9
 digit([_|Rows]) :- maplist(check_digit, Rows).
 
 check_digit([_|Row]) :- Row ins 1..9.
 
-% check if row has repeat numbers
-repeat([_|Rows]) :- maplist(repeat_row, Rows).
+% ----------------------------------------------------------------------------
 
-repeat_row([_|Row]) :- all_distinct(Row).
+% check if row has repeat numbers
+repeat([_|Rows]) :- maplist(check_repeat, Rows).
+
+check_repeat([_|Row]) :- all_distinct(Row).
+
+% ----------------------------------------------------------------------------
 
 % check diagonal value is same
 diagonal([_|[Row|Rows]]) :-
@@ -30,6 +37,8 @@ check_diagonal(N, [Row|Rows], Num) :-
 	nth0(N, Row, Num),
 	N1 is N + 1,
 	check_diagonal(N1, Rows, Num).
+
+% ----------------------------------------------------------------------------
 	
 % check heading of rows
 heading([_|Rows]) :- maplist(check_heading, Rows).
@@ -39,9 +48,9 @@ check_heading([Heading|Row]) :- product(Row, Heading).
 
 product([], 0).
 product([N], N).
-product([H,I|T], Product) :-
-        product([I|T], Product1),
-        Product is H * Product1.
+product([N,N1|Ns], Product) :-
+        product([N1|Ns], Product1),
+        Product #= N * Product1.
 
 
 
