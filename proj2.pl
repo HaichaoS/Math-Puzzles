@@ -2,6 +2,7 @@
 
 
 puzzle_solution(Puzzle) :-
+	digit(Puzzle),
 	transpose(Puzzle, Puzzle_trans),
 	repeat(Puzzle),
 	repeat(Puzzle_trans),
@@ -9,32 +10,32 @@ puzzle_solution(Puzzle) :-
 	heading(Puzzle),
 	heading(Puzzle_trans).
 
-% check if row has repeat numbers
-repeat(Puzzle) :-
-	Puzzle = [_|rows],
-	maplist(repeat_row, rows).
+% check numbers in Puzzle are all integer from 1 to 9
+digit([_|Rows]) :- maplist(check_digit, Rows).
 
-repeat_row([_|row]) :-
-	all_distinct(row).
+check_digit([_|Row]) :- Row ins 1..9.
+
+% check if row has repeat numbers
+repeat([_|Rows]) :- maplist(repeat_row, Rows).
+
+repeat_row([_|Row]) :- all_distinct(Row).
 
 % check diagonal value is same
-diagonal([_|[row|rows]]) :-
-	nth0(1, row, num),
-	check_diagonal(2, rows, num).
+diagonal([_|[Row|Rows]]) :-
+	nth0(1, Row, Num),
+	check_diagonal(2, Rows, Num).
 
 check_diagonal(_,[],_).
-check_diagonal(N, [row|rows], num) :-
-	nth0(N, row, num),
+check_diagonal(N, [Row|Rows], Num) :-
+	nth0(N, Row, Num),
 	N1 is N + 1,
-	check_diagonal(N1, rows, num).
+	check_diagonal(N1, Rows, Num).
 	
 % check heading of rows
-heading(Puzzle) :-
-	Puzzle = [_|rows],
-	maplist(check_heading, rows).
+heading([_|Rows]) :- maplist(check_heading, Rows).
 
-check_heading([heading|row]) :- sum(row, heading).
-check_heading([heading|row]) :- product(row, heading).
+check_heading([Heading|Row]) :- sum(Row, #=, Heading).
+check_heading([Heading|Row]) :- product(Row, Heading).
 
 product([], 0).
 product([N], N).
