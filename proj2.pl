@@ -9,7 +9,8 @@ puzzle_solution(Puzzle) :-
 	repeat(Puzzle_trans),
 	diagonal(Puzzle),
 	heading(Puzzle),
-	heading(Puzzle_trans).
+	heading(Puzzle_trans),
+	check_ground(Puzzle).
 
 % ----------------------------------------------------------------------------
 
@@ -51,6 +52,12 @@ product([N], N).
 product([N,N1|Ns], Product) :-
         product([N1|Ns], Product1),
         Product #= N * Product1.
+
+% ----------------------------------------------------------------------------
+
+%check argument is ground
+
+check_ground([_|Rows]) :- maplist(label, Rows).
 
 
 
