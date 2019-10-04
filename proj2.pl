@@ -1,4 +1,19 @@
+% Created by Haichao Song 854035
+% Solve Math_puzzle for COMP30020 Declarative Programming Project 2
+
+% ----------------------------------------------------------------------------
+
+% Library used 
+
+% transpose/2 used to transpose puzzle from horizontal to vertical
+% all_distinct/1 are used to check row has no repeat numbers
+% ins/2 are used to check row only has digits from 0-9
+% label/1 are used to try all values in finite domain until ground
+% sum/3 are used to check if the heading is the num of the row
 :- use_module(library(clpfd)).
+
+% maplist/2 are used to map check for puzzle to each row
+:- use_module(library(apply))
 
 % ----------------------------------------------------------------------------
 
