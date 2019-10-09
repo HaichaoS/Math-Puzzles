@@ -38,8 +38,8 @@ puzzle_solution(Puzzle) :-
 % ----------------------------------------------------------------------------
 
 % each to be filled in with a single digit 1–9
-% digit/1 map puzzle to rows to check numbers in Puzzle are all integer from 1-9
-% check_digit/1 check all numbers in one row are integer from 1-9
+% digit/1 map puzzle to rows to check numbers in Puzzle are all integer from 
+% 1-9 check_digit/1 check all numbers in one row are integer from 1-9
 
 digit([_|Rows]) :- maplist(check_digit, Rows).
 
